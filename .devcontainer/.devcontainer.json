@@ -1,0 +1,28 @@
+{
+    "name": "treasure-template",
+    "image": "mcr.microsoft.com/devcontainers/java:1-21-bullseye",
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+			"version": "none",
+			"installMaven": "true",
+			"installGradle": "false"
+		}
+    },
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // markdown
+                "yzhang.markdown-all-in-one",
+                // .gitignore
+                "codezombiech.gitignore",
+                // java
+                "vscjava.vscode-java-pack",
+                // springboot
+                "vmware.vscode-boot-dev-pack",
+                // lombok support
+                "vscjava.vscode-lombok"
+            ]
+        }
+    }
+}
