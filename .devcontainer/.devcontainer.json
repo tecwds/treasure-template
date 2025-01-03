@@ -1,5 +1,7 @@
 {
-    "name": "treasure-template",
+    "name": "treasure-template-container",
+    // 中：使用 21 版本的 java, 按需修改
+    // en: use 21 version of java, modify it as needed
     "image": "mcr.microsoft.com/devcontainers/java:1-21-bullseye",
     "features": {
         "ghcr.io/devcontainers/features/java:1": {
@@ -24,5 +26,6 @@
                 "vscjava.vscode-lombok"
             ]
         }
+        // TODO 添加 jetbrains
     }
 }

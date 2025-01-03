@@ -1,6 +1,6 @@
 ## Treasure template
 
-this project is aim to solve the problem that sometime we write `springboot` or `nodejs` projects aren't easily build it and run it online or offline.
+this project is aim to solve the problem that sometime we write `springboot` projects aren't easily build it and run it online or offline.
 
 ## Features
 

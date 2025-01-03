@@ -1,6 +1,6 @@
 ## Treasure template
 
-此模板是为了快速**部署**或**开发**一个使用 `springboot` 和 `nodejs` 的前后端项目。
+此模板是为了快速**部署**或**开发**一个使用 `springboot` 的前后端项目。
 
 
 ## 功能特点
