@@ -1,13 +1,39 @@
 ## Treasure template
 
-写 `springboot` 或者 `nodejs` 项目的时候，往往环境难以搭建（或者难以部署），因此我创建了一个模板，用于解决这个问题。
+此模板是为了快速**部署**或**开发**一个使用 `springboot` 和 `nodejs` 的前后端项目。
 
-## Features
 
-1. `devcontainer`
-2. `vscode support`
-3. `jetbrains support`
+## 功能特点
+ 
+**1. 开发**
 
+- [ ] 使用 `vscode` 直接开发
+- [ ] 使用 `jetbrains` 直接开发
+- [ ] 在 `vscode` 使用 `devcontainer` 开发
+- [ ] 在 `jetbrains` 使用 `devcontainer` 开发
+
+**2. 中间件**
+
+- [ ] `mysql` 容器
+- [ ] `mongodb` 容器
+- [ ] `redis` 容器
+- [ ] `nginx` 容器
+- [ ] `elk` 容器
+
+**3. 构建**
+
+- [ ] 本地构建
+- [ ] 远程构建
+- [ ] `Github Actions` 构建
+- [ ] 使用 `docker-compose` 构建
+
+**4. 部署**
+
+- [ ] 本地部署
+- [ ] 远程部署
+- [ ] 使用 `Dockerfile` 部署
+- [ ] `Github Actions` 部署
+- [ ] 使用 `docker-compose` 部署
 
 ## 目录说明
 
@@ -20,7 +46,7 @@
 | `scripts` | 脚本 |
 | `env` | 环境变量 |
 
-## 使用
+## 开始使用
 
-1. fork 项目，或者 clone 项目，或者作为模板创建一个新的仓库
-2. 修改 `env` 下的配置文件
+1. fork 本项目, 或者 clone 本项目, 亦或者使用此仓库作为模板创建一个新的仓库
+2. 将代码复制到 src 目录下（或者新创建一个）
