@@ -1,3 +1,6 @@
+include:
+  - tools/compose/__base-net.yml
+
 services:
   mysql-server:
     image: "mysql:8.0.36"
@@ -9,12 +12,14 @@ services:
       # 需要修改
       # - '../sql:/docker-entrypoint-initdb.d/'
     environment:
-      - MYSQL_ROOT_PASSWORD=PASSWORD
+      - MYSQL_ROOT_PASSWORD=root123
       - TZ=Asia/Shanghai
     ports:
       - "3306:3306"
     tty: true
     stdin_open: true
+    networks:
+      treasure_net:
 
 volumes:
   mysql-d:

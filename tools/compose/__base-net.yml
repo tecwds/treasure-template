@@ -1,0 +1,13 @@
+# 中：基础网络配置，并且不要修改此文件的名称
+# en: Base network configuration, and do not modify the name of this file
+networks:
+  # 中：网络名称
+  # en: Network name
+  treasure_net:
+    driver: bridge
+    ipam:
+      config:
+        # 网段
+        - subnet: 10.233.1.0/24
+          # 网关
+          gateway: 10.233.1.1
