@@ -1,30 +1,40 @@
+includes:
+  - __base-net.yml
+
 services:
-  mongodb:
+  mongodb-server:
     # 没有具体要求
     image: "mongo:latest"
-    container_name: "we-mongodb"
+    container_name: "mongodb-server"
     restart: unless-stopped
     environment:
-      # 生产环境需要修改
+      # 中：数据库用户名
+      # en: database username
       MONGO_INITDB_ROOT_USERNAME: root
-      # 生产环境需要修改
-      MONGO_INITDB_ROOT_PASSWORD: root
+      # 中：数据库密码
+      # en: database password
+      MONGO_INITDB_ROOT_PASSWORD: rootPassword
     networks:
-      - mongo_net
+      # from __base-net.yml
+      treasure_net:
+
   mongo-express:
     image: "mongo-express:latest"
-    container_name: "we-mongo-express"
+    container_name: "mongo-express"
     ports:
       # 8081 有太多会占用，改成 3066
+      # 中：mongo-express 端口
+      # en: mongo-express port
       - "3066:8081"
     environment:
+      # 中：mongo-express 用户名
+      # en: mongo-express username  
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      # 中：mongo-express 密码
+      # en: mongo-express password
+      ME_CONFIG_MONGODB_ADMINPASSWORD: rootPassword
       # mongodb 的数据库端口
-      ME_CONFIG_MONGODB_URL: 'mongodb://root:root@mongodb:27017'
+      ME_CONFIG_MONGODB_URL: 'mongodb://root:rootPassword@mongodb-server:27017'
       ME_CONFIG_BASICAUTH: false
     networks:
-      - mongo_net
-      
-networks:
-  mongo_net:
+      treasure_net:
