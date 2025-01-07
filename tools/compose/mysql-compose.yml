@@ -1,5 +1,5 @@
 include:
-  - tools/compose/__base-net.yml
+  - __base-net.yml
 
 services:
   mysql-server:
