@@ -7,7 +7,7 @@ FROM maven:3.9-eclipse-temurin-21-jammy as builder
 # en: set working directory
 WORKDIR /source
 
-COPY src/pom.xml .
+COPY ${SOURCE_DIR}/pom.xml .
 
 # 中：缓存依赖
 # en: cache dependencies
@@ -15,7 +15,7 @@ RUN mvn dependency:go-offline
 
 # 中：复制源代码
 # en: copy source code
-COPY src .
+COPY ${SOURCE_DIR} .
 
 # 中：打包构建
 # en: build project
