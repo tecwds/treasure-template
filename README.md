@@ -33,3 +33,8 @@ this project is aim to solve the problem that sometime we write `springboot` pro
 - [ ] use `dockerfile` deploy
 - [ ] `Github Actions` deploy
 - [ ] use `docker-compose` deploy
+
+## Quick start
+
+1. fork this template or clone it
+2. copy your source code into src
