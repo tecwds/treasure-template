@@ -53,7 +53,7 @@ else
 fi
 
 # 生成密码
-password=$(openssl rand -base64 $((length * 3/4)) | head -c $length)
+password=$(openssl rand -base64 $((length * 3/4)) | head -c "$length")
 
 # 根据运行模式输出结果
 if [ $is_pipe -eq 0 ]; then
