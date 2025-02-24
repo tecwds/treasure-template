@@ -3,6 +3,11 @@
 # maven 3.9 + openjdk-21
 FROM maven:3.9-eclipse-temurin-21-jammy as builder
 
+# 环境变量，用于设置代理
+ENV HTTP_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY:${HTTP_PROXY}}
+ENV NO_PROXY=${NO_PROXY:localhost,127.0.0.1}
+
 # 中：设置工作目录
 # en: set working directory
 WORKDIR /source

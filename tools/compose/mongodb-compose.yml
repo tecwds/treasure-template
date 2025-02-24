@@ -1,5 +1,5 @@
-includes:
-  - __base-net.yml
+include:
+  - ./__base-net.yml
 
 services:
   mongodb-server:
@@ -28,7 +28,7 @@ services:
       - "3066:8081"
     environment:
       # 中：mongo-express 用户名
-      # en: mongo-express username  
+      # en: mongo-express username
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       # 中：mongo-express 密码
       # en: mongo-express password

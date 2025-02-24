@@ -77,4 +77,4 @@ services:
       # - mongodb
     networks:
       # from __base-net.yml
-      - treasure_net:
+      treasure_net:
