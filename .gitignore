@@ -1,1 +1,2 @@
-tools/secrets/db*.txt
+tools/secrets/db_password.txt
+tools/secrets/db_root_password.txt
