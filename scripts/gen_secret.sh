@@ -34,12 +34,7 @@ if [ $is_pipe -eq 0 ]; then
 
     # 显示进度条函数
     show_progress() {
-        local progress=$1
-        local width=50
-        local completed=$((progress * width / 100))
-        local remaining=$((width - completed))
-
-        printf "\r生成进度: %d%%" "" "" "$progress" >&2
+        printf "\r生成进度: %d%%" "" "" "$1" >&2
     }
 
     # 模拟进度 —— 笑死
