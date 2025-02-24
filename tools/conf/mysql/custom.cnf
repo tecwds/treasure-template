@@ -22,11 +22,6 @@ query_cache_type = 0                  # 禁用查询缓存（MySQL 8已废弃）
 wait_timeout = 300
 interactive_timeout = 300
 
-# 日志控制
-slow_query_log = OFF                  # 按需开启
-general_log = OFF                     # 生产环境关闭
-log_error = /var/log/mysql/error.log
-
 # 内核优化
 skip_name_resolve = ON
 performance_schema = OFF              # 节省内存
