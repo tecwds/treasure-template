@@ -1,0 +1,32 @@
+[mysqld]
+# 基础优化
+max_connections = 50
+thread_cache_size = 8
+table_open_cache = 512
+table_definition_cache = 1408
+
+# InnoDB 核心配置
+innodb_buffer_pool_size = 512M       # 物理内存的 50%-70%
+innodb_log_file_size = 128M           # Redo日志大小
+innodb_flush_log_at_trx_commit = 1    # 保证ACID特性
+innodb_flush_method = O_DIRECT        # 避免双缓冲
+innodb_buffer_pool_instances = 2      # 匹配CPU核数
+
+# 内存敏感配置
+tmp_table_size = 32M
+max_heap_table_size = 32M
+key_buffer_size = 16M
+query_cache_type = 0                  # 禁用查询缓存（MySQL 8已废弃）
+
+# 连接优化
+wait_timeout = 300
+interactive_timeout = 300
+
+# 日志控制
+slow_query_log = OFF                  # 按需开启
+general_log = OFF                     # 生产环境关闭
+log_error = /var/log/mysql/error.log
+
+# 内核优化
+skip_name_resolve = ON
+performance_schema = OFF              # 节省内存
