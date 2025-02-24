@@ -27,7 +27,7 @@ services:
       - TZ=Asia/Shanghai
       # 中：数据库密码
       # en: Database root password
-      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
       # 中：数据库名称
       # en: Database name
       - MYSQL_DATABASE=treasure
@@ -36,7 +36,10 @@ services:
       - MYSQL_USER=treasure
       # 中：数据库密码
       # en: Database password
-      - MYSQL_PASSWORD=treasurePass123
+      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_password
     ports:
       - "3306:3306"
     tty: true
@@ -62,3 +65,9 @@ services:
 
 volumes:
   mysql-d:
+
+secrets:
+  - db_root_password:
+      file: ./db_root_password.txt
+  - db_password:
+      file: ./db_password.txt
