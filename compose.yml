@@ -1,66 +1,43 @@
-# 中：需要 docker compose 版本大于 2.20.0
-# en: Requires docker compose version greater than 2.20.0
-
-# 中：按需要导入相关容器配置
-# en: Import related container configuration as needed
-# such as:
-
+# 需要 docker compose 版本大于 2.20.0
+# 按需要导入相关容器配置
 # include:
 #   - tools/compose/mongodb-compose.yml
 
 include:
+  # __base-net 必选
   - tools/compose/__base-net.yml
   - tools/compose/mysql-compose.yml
 
 services:
-  # 中：后端服务
-  # en: Backend service
+  # 后端服务
   server:
     build:
       context: .
       # Dockerfile 与 compose.yml 同级，因此不需要额外指定 Dockerfile
       # dockerfile: Dockerfile
-    # 中：容器重启策略，除非手动停止，否则一直重启，选项有：[unless-stopped, always, on-failure, no]
-    # en: Container restart policy, unless manually stopped, otherwise always restart, options: [unless-stopped, always, on-failure, no]
+    # 容器重启策略，除非手动停止，否则一直重启，选项有：[unless-stopped, always, on-failure, no]
     container_name: "treasure-server"
     restart: unless-stopped
-    command:
-      # 中：对于 springboot 可以在启动时指定启动参数（不能单独指定某个类中某个属性，要一起指定，否则会发生不可预料的错误）
-      # en: For springboot, you can specify startup parameters at startup (you cannot specify a property in a class, you must specify it together, otherwise an unpredictable error will occur)
-      - -- debug=false
-      - -- spring.profiles.active=prod
-      # 中：这里以 mysql 为例（且 mysql 服务名为 mysql-server），如果使用其他数据库，请自行修改
-      # en: Here, mysql is used as an example (and the mysql service name is mysql-server), if you use other databases, please modify it yourself
-      - -- spring.datasource.url=jdbc:mysql://mysql-server:3306/${DATABASE_NAME}?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-      - -- spring.datasource.username=root
-      - -- spring.datasource.password=root123
+    entrypoint: ["entrypoint.sh"]
     environment:
-      # 中：按需添加
-      # en: Add as needed
+      # 按需添加
       - TZ=Asia/Shanghai
     volumes:
-      # 中：按需添加
-      # en: Add as needed
+      # 按需添加
       # - "./logs:/app/logs"
     ports:
-      # 中：按需添加
-      # en: Add as needed
+      # 按需添加
       # - "8080:8080"
     healthcheck:
-      # 中：健康检查，用于监控容器状态，如果没有则删除健康检查
-      # en: Health check, used to monitor container status, if not, delete health check
+      # 健康检查，用于监控容器状态，如果没有则删除健康检查
       test: "curl -f http://localhost:8080"
-      # 中：健康检查间隔时间
-      # en: Health check interval time
+      # 健康检查间隔时间
       interval: 30s
-      # 中：健康检查超时时间
-      # en: Health check timeout time
+      # 健康检查超时时间
       timeout: 10s
-      # 中：健康检查重试次数
-      # en: Health check retry times
+      # 健康检查重试次数
       retries: 3
-      # 中：健康检查启动时间（等待容器启动多久后开始健康检查）
-      # en: Health check startup time (wait for container startup)
+      # 健康检查启动时间（等待容器启动多久后开始健康检查）
       start_period: 10s
     logging:
       driver: "json-file"
@@ -72,8 +49,7 @@ services:
         # en: Maximum log file number
         max-file: "5"
     depends_on:
-      # 中：按需添加
-      # en: Add as needed
+      # 按需添加
       # - mongodb
     networks:
       # from __base-net.yml
