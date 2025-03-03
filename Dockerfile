@@ -4,43 +4,49 @@
 FROM maven:3.9-eclipse-temurin-21-jammy as builder
 
 # 环境变量，用于设置代理
-ENV HTTP_PROXY=${HTTP_PROXY}
-ENV HTTPS_PROXY=${HTTPS_PROXY:${HTTP_PROXY}}
-ENV NO_PROXY=${NO_PROXY:localhost,127.0.0.1}
 
-# 中：设置工作目录
-# en: set working directory
+ARG PROXY_HOST=${PROXY_HOST}
+ARG PROXY_PORT=${PROXY_PORT}
+ARG NO_PROXY=${NO_PROXY:localhost,127.0.0.1}
+
+# 设置工作目录
 WORKDIR /source
 
 COPY ${SOURCE_DIR}/pom.xml .
 
-# 中：缓存依赖
-# en: cache dependencies
-RUN mvn dependency:go-offline
+# 缓存依赖
+RUN mvn dependency:go-offline \
+    -Dhttp.proxyHost=$PROXY_HOST \
+    -Dhttp.proxyPort=$PROXY_PORT \
+    -Dhttp.nonLocalHosts=$NO_PROXY
 
-# 中：复制源代码
-# en: copy source code
+# 复制源代码
 COPY ${SOURCE_DIR} .
 
-# 中：打包构建
-# en: build project
+# 打包构建
 
 # 跳过 JUnit 测试
-# en: skip JUnit tests
 ARG MAVEN_OPTS="-DskipTests"
 
-# 中：构建项目
-# en: build project
+# 构建项目
 RUN mvn clean package $MAVEN_OPTS
 
-FROM openjdk:21-jdk
+# 解压 Jar 文件
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+
+# 运行
+FROM openjdk:21-jdk-alpine as runner
+
+RUN addgroup -S spring && adduser -S spring -G spring
+
+USER spring:spring
 
 WORKDIR /app
 
-# 中：使用 openjdk-21 作为运行时
-# en: use openjdk-21 as runtime
-COPY --from=builder /source/target/*.jar /app/app.jar
+# 使用 openjdk-21 作为运行时
+ARG DEPENDENCY=/source/target/dependency
+COPY --from=builder ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=builder ${DEPENDENCY}/META-INF/lib /app/META-INF
+COPY --from=builder ${DEPENDENCY}/BOOT-INF/classes /app
 
-EXPOSE 39150
-
-ENTRYPOINT ["bash entrypoint.sh"]
+ENTRYPOINT ["java", "cp", "app:app/lib/*", "${MAIL_CLASS_PATH}"]
