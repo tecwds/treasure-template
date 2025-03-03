@@ -7,14 +7,12 @@ services:
     container_name: "mysql-server"
     restart: unless-stopped
     command:
-      # 中：使用 mysql_native_password 插件（8 版本中已过时）
-      # en: Use mysql_native_password plugin (deprecated in 8.0.36)
+      # 使用 mysql_native_password 插件（8 版本中已过时）
       # - --default-authentication-plugin=mysql_native_password
       - --default-authentication-plugin=caching_sha2_password
       - --character-set-server=utf8
       - --collation-server=utf8_general_ci
-      # 中：启用显式默认值
-      # en: Enable explicit defaults
+      # 启用显式默认值
       - --explicit_defaults_for_timestamp=true
     volumes:
       - 'mysql-d:/var/lib/mysql'
@@ -24,20 +22,15 @@ services:
       # MySQL 配置文件
       - '../conf/mysql/custom.cnf:/etc/mysql/my.cnf'
     environment:
-      # 中：时区
-      # en: Time zone
+      # 时区
       - TZ=Asia/Shanghai
-      # 中：数据库密码
-      # en: Database root password
+      # 数据库密码
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
-      # 中：数据库名称
-      # en: Database name
+      # 数据库名称
       - MYSQL_DATABASE=treasure
-      # 中：数据库用户名
-      # en: Database username
+      # 数据库用户名
       - MYSQL_USER=treasure
-      # 中：数据库密码
-      # en: Database password
+      # 数据库密码
       - MYSQL_PASSWORD_FILE=/run/secrets/db_password
     secrets:
       - db_root_password
@@ -50,10 +43,8 @@ services:
       driver: "json-file"
       options:
         # 最大日志文件大小
-        # en: Maximum log file size
         max-size: "1G"
         # 最大日志文件数量
-        # en: Maximum log file number
         max-file: "5"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]

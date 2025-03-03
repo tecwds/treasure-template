@@ -1,0 +1,18 @@
+include:
+  - ./__base-net.yml
+
+services:
+  treasure-nginx:
+    image: "nginx:latest"
+    container_name: "treasure-nginx-server"
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "80:80"
+      - "443:443"
+      # 其他
+      # - "p:p"
+    networks:
+      treasure_net:
+

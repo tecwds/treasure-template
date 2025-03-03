@@ -1,8 +1,6 @@
-# 中：基础网络配置，并且不要修改此文件的名称
-# en: Base network configuration, and do not modify the name of this file
+# 基础网络配置，并且不要修改此文件的名称
 networks:
-  # 中：网络名称
-  # en: Network name
+  # 网络名称
   treasure_net:
     driver: bridge
     ipam:

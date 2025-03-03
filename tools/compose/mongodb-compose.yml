@@ -8,11 +8,9 @@ services:
     container_name: "mongodb-server"
     restart: unless-stopped
     environment:
-      # 中：数据库用户名
-      # en: database username
+      # 数据库用户名
       MONGO_INITDB_ROOT_USERNAME: root
-      # 中：数据库密码
-      # en: database password
+      # 数据库密码
       MONGO_INITDB_ROOT_PASSWORD: rootPassword
     networks:
       # from __base-net.yml
@@ -23,15 +21,12 @@ services:
     container_name: "mongo-express"
     ports:
       # 8081 有太多会占用，改成 3066
-      # 中：mongo-express 端口
-      # en: mongo-express port
+      # mongo-express 端口
       - "3066:8081"
     environment:
-      # 中：mongo-express 用户名
-      # en: mongo-express username
+      # mongo-express 用户名
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      # 中：mongo-express 密码
-      # en: mongo-express password
+      # mongo-express 密码
       ME_CONFIG_MONGODB_ADMINPASSWORD: rootPassword
       # mongodb 的数据库端口
       ME_CONFIG_MONGODB_URL: 'mongodb://root:rootPassword@mongodb-server:27017'
