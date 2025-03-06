@@ -1,0 +1,36 @@
+include:
+  - ./__base-net.yml
+
+services:
+  redis-server:
+#    image: "redis/redis-stack:latest"
+    image: "redis/redis-stack-server:latest"
+    container_name: "redis-server"
+    restart: unless-stopped
+#    command:
+    environment:
+      TZ: Asia/Shanghai
+      # Redis 额外启动参数
+      REDIS_ARGS: |
+        --requirepass redis-stack
+    volumes:
+      - "redis-d:/data"
+      - "../conf/redis/redis.conf:/redis-stack.conf"
+
+    ports:
+      # Redis Port
+      - "6379:6379"
+      # Redis Insight Port
+      - "8001:8001"
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
+        max-file: "5"
+    networks:
+      treasure_net:
+
+volumes:
+  redis-d:
