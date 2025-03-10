@@ -16,7 +16,6 @@ innodb_buffer_pool_instances = 2      # 匹配CPU核数
 tmp_table_size = 32M
 max_heap_table_size = 32M
 key_buffer_size = 16M
-query_cache_type = 0                  # 禁用查询缓存（MySQL 8已废弃）
 
 # 连接优化
 wait_timeout = 300

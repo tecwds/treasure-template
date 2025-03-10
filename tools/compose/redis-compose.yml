@@ -3,8 +3,8 @@ include:
 
 services:
   redis-server:
-#    image: "redis/redis-stack:latest"
-    image: "redis/redis-stack-server:latest"
+    image: "redis/redis-stack:latest"
+#    image: "redis/redis-stack-server:latest"
     container_name: "redis-server"
     restart: unless-stopped
 #    command:
