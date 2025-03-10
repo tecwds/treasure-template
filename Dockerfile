@@ -9,6 +9,8 @@ ARG PROXY_HOST=${PROXY_HOST}
 ARG PROXY_PORT=${PROXY_PORT}
 ARG NO_PROXY=${NO_PROXY:localhost,127.0.0.1}
 
+#ARG MAVEN_OPTS='-Dhttp.proxyHost=172.18.160.1 -Dhttp.proxyPort=7897 -Dhttp.nonLocalHosts=localhost,127.0.0.1,172.18.0.0/20'
+
 # 设置工作目录
 WORKDIR /source
 
