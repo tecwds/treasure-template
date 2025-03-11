@@ -7,6 +7,8 @@ services:
     image: "mongo:latest"
     container_name: "mongodb-server"
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     environment:
       # 数据库用户名
       MONGO_INITDB_ROOT_USERNAME: root
@@ -19,6 +21,7 @@ services:
   mongo-express:
     image: "mongo-express:latest"
     container_name: "mongo-express"
+    restart: unless-stopped
     ports:
       # 8081 有太多会占用，改成 3066
       # mongo-express 端口
