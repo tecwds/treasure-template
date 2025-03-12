@@ -1,0 +1,22 @@
+include:
+  - ./__base-net.yml
+
+services:
+  minio-server:
+    image: 'quay.io/minio/minio:latest'
+    container_name: 'minio-server'
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - TZ=Asia/Shanghai
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minioPasswd
+    volumes:
+      - "minio-d:/data"
+    networks:
+      treasure_net:
+
+volumes:
+  - minio-d:
