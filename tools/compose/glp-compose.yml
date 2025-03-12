@@ -1,0 +1,87 @@
+include:
+  - ./__base-net.yml
+
+services:
+  grafana-server:
+    image: 'grafana/grafana:latest'
+    container_name: 'grafana-server'
+    restart: unless-stopped
+    environment:
+      # 具体查看:
+      # https://grafana.com/docs/grafana/latest/setup-grafana/configure-docker/
+      - TZ=Asia/Shanghai
+#      - GF_LOG_LEVEL=debug
+      - GF_SERVER_ROOT_URL=http://localhost:3000/
+      - GF_DEFAULT_INSTANCE_NAME=grafana-server
+#      - GF_PLUGINS_PREINSTALL=grafana-clock-panel
+      - GF_PATHS_LOGS=/var/log/grafana
+      - GF_LOG_MODE=console file
+      - GF_PATH_PROVISIONING=/etc/grafana/provisioning
+      # 匿名访问 Grafana
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_FEATURE_TOGGLES_ENABLE=alertingSimplifiedRouting,alertingQueryAndExpressionsStepMode
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat << EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+        - name: Loki
+          type: loki
+          access: proxy
+          orgId: 1
+          url: http://loki-server:3000
+          basicAuth: false
+          isDefault: true
+          version: 1
+          editable: false
+        EOF
+        /run.sh
+    volumes:
+      - "grafana-d:/var/lib/grafana"
+      - "grafana-log:/var/log/grafana"
+    ports:
+      - "33000:3000"
+      # grpc port
+      - "38096:9096"
+    networks:
+      treasure_net:
+
+  loki-server:
+    image: 'grafana/loki:latest'
+    container_name: 'loki-server'
+    restart: unless-stopped
+    command:
+      - -config.file=/etc/etc/loki/local-config.yaml
+    ports:
+      - "33100:3100"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - "loki-d:/loki"
+      - "../conf/loki/loki-local-config.yaml:/etc/loki/local-config.yaml"
+    networks:
+      treasure_net:
+
+  promtail-server:
+    image: 'grafana/promtail:latest'
+    container_name: 'promtail-server'
+    restart: unless-stopped
+    command:
+      - -config.file=/etc/promtail/config.yml
+    ports:
+      # http 监听端口
+      - "9080:9080"
+    volumes:
+      - "promtail-log:/var/log"
+      - "../conf/promtail/promtail-docker-config.yml:/etc/promtail/config.yml"
+    networks:
+      treasure_net:
+
+volumes:
+  loki-d:
+  grafana-d:
+  grafana-log:
+  promtail-log:
