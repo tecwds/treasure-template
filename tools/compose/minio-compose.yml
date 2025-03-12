@@ -35,4 +35,4 @@ services:
       treasure_net:
 
 volumes:
-  - minio-d:
+  minio-d:
