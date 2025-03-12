@@ -54,7 +54,7 @@ services:
     container_name: 'loki-server'
     restart: unless-stopped
     command:
-      - -config.file=/etc/etc/loki/local-config.yaml
+      - -config.file=/etc/loki/local-config.yaml
     ports:
       - "33100:3100"
     environment:
