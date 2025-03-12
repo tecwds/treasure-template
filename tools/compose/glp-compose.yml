@@ -32,11 +32,11 @@ services:
           type: loki
           access: proxy
           orgId: 1
-          url: http://loki-server:3000
+          url: http://loki-server:3100
           basicAuth: false
           isDefault: true
           version: 1
-          editable: false
+          editable: true
         EOF
         /run.sh
     volumes:
@@ -54,7 +54,7 @@ services:
     container_name: 'loki-server'
     restart: unless-stopped
     command:
-      - -config.file=/etc/etc/loki/local-config.yaml
+      - -config.file=/etc/loki/local-config.yaml
     ports:
       - "33100:3100"
     environment:
