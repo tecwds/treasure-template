@@ -1,0 +1,6 @@
+#include:
+#  - __base-net.yml
+#
+#services:
+#  postgres-server:
+#    image: ''

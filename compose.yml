@@ -7,6 +7,6 @@ include:
   # __base-net 必选
   - tools/compose/__base-net.yml
 #  - tools/compose/mysql-compose.yml
-#  - tools/compose/redis-compose.yml
+  - tools/compose/redis-compose.yml
 #  - tools/compose/mongodb-compose.yml
-  - tools/compose/glp-compose.yml
+#  - tools/compose/glp-compose.yml

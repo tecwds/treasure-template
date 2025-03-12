@@ -1,0 +1,13 @@
+include:
+  - __base-net.yml
+
+services:
+  kafka-server:
+    image: 'bitnami/kafka:latest'
+    container_name: 'kafka-server'
+
+    networks:
+      treasure_net:
+
+volumes:
+  kafka-d:
