@@ -20,7 +20,7 @@ services:
       # 需要修改
       # - '../sql:/docker-entrypoint-initdb.d/'
       # MySQL 配置文件
-      - '../conf/mysql/custom.cnf:/etc/mysql/my.cnf'
+#      - '../conf/mysql/custom.cnf:/etc/mysql/my.cnf'
     environment:
       # 时区
       - TZ=Asia/Shanghai
