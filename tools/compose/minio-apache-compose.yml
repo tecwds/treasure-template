@@ -3,10 +3,10 @@ include:
 
 services:
   minio-server:
-    image: 'quay.io/minio/minio'
+    image: 'minio/minio:RELEASE.2021-04-22T15-44-28Z.hotfix.56647434e'
     container_name: 'minio-server'
     restart: unless-stopped
-    command: server /data --console-address ":9001"
+    command: server --address ':9000' /data
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -23,6 +23,10 @@ services:
       - MINIO_COMPRESS_EXTENSIONS=
       # mime 类型 application/pdf 为空 所有类型均压缩
       - MINIO_COMPRESS_MIME_TYPES=
+      # 配置 MinIO 服务器的公共 URL，方便外部访问
+      - MINIO_SERVER_URL=http://localhost:9000
+      # 配置浏览器重定向 URL，可用于访问 MinIO 控制台
+      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9000/console
     volumes:
       - "minio-d:/data"
       - "../conf/minio:/root/.minio/"
