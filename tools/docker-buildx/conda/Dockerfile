@@ -27,4 +27,4 @@ RUN /conda/bin/conda init
 
 VOLUME ["/conda/envs"]
 
-ENTRYPOINT ["top", "-b"]
+ENTRYPOINT ["bash"]
