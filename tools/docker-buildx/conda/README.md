@@ -29,3 +29,8 @@ docker buildx build -t miniconda3 .
 ```shell
 docker run -d --name=miniconda3-env -p 22222:22 miniconda3:latest
 ```
+
+```shell
+docker volume create conda-envs
+docker run -d --name=miniconda3-env -p 22222:22 -v conda-envs:/conda/envs  miniconda3:latest
+```
