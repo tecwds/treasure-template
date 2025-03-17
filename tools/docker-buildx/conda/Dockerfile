@@ -21,6 +21,8 @@ WORKDIR /conda
 
 COPY --from=downloader /conda /conda
 
+ENV PATH=$PATH:/conda/bin
+
 RUN /conda/bin/conda init
 
 VOLUME ["/conda/envs"]
