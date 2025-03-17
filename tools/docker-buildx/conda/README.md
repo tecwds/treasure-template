@@ -18,9 +18,14 @@
 docker buildx build --build-arg CONDA_PATH=Miniconda3-latest-Linux-x86_64.sh -t miniconda3 .
 ```
 
-
 无 `conda` 安装文件
 
 ```shell
 docker buildx build -t miniconda3 .
+```
+
+## 运行
+
+```shell
+docker run -d --name=miniconda3-env -p 22222:22 miniconda3:latest
 ```
