@@ -2,7 +2,7 @@
 FROM debian:trixie-slim AS downloader
 LABEL authors="tecwds"
 
-WORKDIR /tmp
+WORKDIR /conda
 
 COPY . .
 
@@ -14,17 +14,13 @@ RUN if [ -f "$CONDA_PATH" ]; then mv $CONDA_PATH /tmp/conda-install.sh; else cur
 # 安装 miniconda（conda）
 RUN sh /tmp/conda-install.sh -b -u -p /conda
 
-
-FROM debian:trixie-slim
-
-WORKDIR /conda
-
-COPY --from=downloader /conda /conda
-
 ENV PATH=$PATH:/conda/bin
 
 RUN /conda/bin/conda init
 
 VOLUME ["/conda/envs"]
 
-ENTRYPOINT ["bash"]
+# 配置 SSH
+RUN apt install -y openssh-server
+
+ENTRYPOINT ["entrypoint.sh"]
