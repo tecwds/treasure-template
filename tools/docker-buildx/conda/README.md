@@ -1,6 +1,8 @@
 # miniconda (conda)
 
-> 用于 `Pycharm` 设置工具链
+> 用于 `Pycharm` 设置工具链（SSH方式）
+> 用户： `root`
+> 密码： `root`
 
 ## 参数说明
 

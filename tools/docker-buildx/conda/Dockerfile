@@ -16,11 +16,11 @@ RUN sh /tmp/conda-install.sh -b -u -p /conda
 
 ENV PATH=$PATH:/conda/bin
 
-RUN /conda/bin/conda init
+RUN /conda/bin/conda init && rm /tmp/conda-install.sh
 
 VOLUME ["/conda/envs"]
 
 # 配置 SSH
-RUN apt install -y openssh-server
+RUN apt update && apt install -y openssh-server && apt clean
 
 ENTRYPOINT ["entrypoint.sh"]
