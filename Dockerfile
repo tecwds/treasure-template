@@ -14,7 +14,7 @@ ARG NO_PROXY=${NO_PROXY:localhost,127.0.0.1}
 # 设置工作目录
 WORKDIR /source
 
-COPY ${SOURCE_DIR}/pom.xml .
+COPY pom.xml pom.xml
 
 # 缓存依赖
 RUN mvn dependency:go-offline \
@@ -23,7 +23,7 @@ RUN mvn dependency:go-offline \
     -Dhttp.nonLocalHosts=$NO_PROXY
 
 # 复制源代码
-COPY ${SOURCE_DIR} .
+COPY src .
 
 # 打包构建
 

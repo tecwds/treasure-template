@@ -1,0 +1,19 @@
+include:
+  - __base-net.yml
+
+services:
+  rabbitmq-server:
+#    image: 'rabbitmq'
+#    image: 'rabbitmq:alpine'
+    # management: 带有插件管理
+#    image: 'rabbitmq:management'
+    image: 'rabbitmq:management-alpine'
+    container_name: 'rabbitmq-server'
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ".:."
+    hostname: rabbit
+    networks:
+      treasure_net:
