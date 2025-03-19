@@ -1,0 +1,12 @@
+server:
+  port: 38080
+
+
+spring:
+  application:
+    name: treasure
+  docker:
+    compose:
+      enabled: true
+      file: compose.yml
+debug: true
