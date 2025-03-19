@@ -1,0 +1,4 @@
+trusted-certs
+*.json
+*_key
+*.pub
