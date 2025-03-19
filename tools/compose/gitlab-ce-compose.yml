@@ -1,0 +1,41 @@
+include:
+  - __base-net.yml
+
+services:
+  gitlab-ce-server:
+    image: 'gitlab/gitlab-ce'
+    container_name: 'gitlab-ce-server'
+#    restart: unless-stopped
+    hostname: 'gitlab'
+    environment:
+      TZ: Asia/Shanghai
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:30080'
+        gitlab_rails['gitlab_shell_ssh_port'] = 30022
+    ports:
+#      - '80:80'
+#      - '443:443'
+#      - '22:22'
+      - '30080:30080'
+      - '30443:443'
+      - '30022:22'
+    volumes:
+      - 'gitlab-ce-d:/var/opt/gitlab'
+      - 'gitlab-ce-logs:/var/log/gitlab'
+      - '../conf/gitlab:/etc/gitlab'
+    shm_size: '256m'
+    networks:
+      treasure_net:
+
+  gitlab-runner:
+    image: 'gitlab/gitlab-runner:alpine'
+    deploy:
+      mode: replicated
+#      replicas: 4
+      replicas: 1
+
+volumes:
+  # /var/opt/gitlab
+  gitlab-ce-d:
+  # /var/log/gitlab
+  gitlab-ce-logs:
