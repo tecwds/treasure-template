@@ -3,17 +3,55 @@ include:
 
 services:
   rabbitmq-server:
-#    image: 'rabbitmq'
-#    image: 'rabbitmq:alpine'
-    # management: 带有插件管理
-#    image: 'rabbitmq:management'
-    image: 'rabbitmq:management-alpine'
-    container_name: 'rabbitmq-server'
+    image: 'rabbitmq:4.1'
+    container_name: 'env-rabbitmq'
+    hostname: 'rabbitmq'
     restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "25672:25672"
     environment:
-      TZ: Asia/Shanghai
+      - TZ=Asia/Shanghai
+      # 服务端口
+      - RABBITMQ_NODE_PORT=5672
+      # 用于 cli 工具或者其他节点通信，默认是 node_port + 20000
+      - RABBITMQ_DIST_PORT=25672
+      - RABBITMQ_NODENAME=lisRabbitMq
+      - RABBITMQ_CONFIG_FILE=/etc/rabbitmq/rabbitmq.conf
+      - RABBITMQ_CONFIG_FILES=/etc/rabbitmq/conf.d
+      - RABBITMQ_ADVANCED_CONFIG_FILE=/etc/rabbitmq/rabbitmq.config
+      - RABBITMQ_CONF_ENV_FILE=/etc/rabbitmq/rabbitmq-env.conf
+      - RABBITMQ_LOG_BASE=/var/log/rabbitmq
+      - HOSTNAME=rabbitmq
     volumes:
-      - ".:."
-    hostname: rabbit
+      # data 数据
+      - "e-rabbitmq-d:/var/lib/rabbitmq"
+      # 配置文件
+    #      - "./rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf"
+    #      - "./rabbitmq/conf/conf.d/:/etc/rabbitmq/conf.d/"
+    #      - "./rabbitmq/conf/rabbitmq-env.conf:/etc/rabbitmq/rabbitmq-env.conf"
+    #      - "./rabbitmq/conf/rabbitmq.config:/etc/rabbitmq/rabbitmq.config"
     networks:
       treasure_net:
+    tty: true
+    stdin_open: true
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1G'
+        max-file: '5'
+    healthcheck:
+      test: "rabbitmq-diagnostics -q ping | grep succeeded"
+      # 第 30 秒开始定时健康检测
+      start_interval: 30s
+      # 第 10 秒开始健康检测
+      start_period: 10s
+      # 每 30 秒定时健康检测
+      interval: 30s
+      # 10 秒超时
+      timeout: 10s
+      # 最多重试 5 次
+      retries: 5
+
+volumes:
+  e-rabbitmq-d:
