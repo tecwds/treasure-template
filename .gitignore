@@ -38,3 +38,6 @@ build/
 ### VS Code ###
 .vscode/
 tools/conf/gitlab/gitlab.rb
+
+### test file
+scripts/harbor-installer/harbor-*.tgz
