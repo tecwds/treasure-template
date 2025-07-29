@@ -148,7 +148,7 @@ prepare_harbor() {
     sed -i "s/hostname:.*/hostname: ${SERVER_HOST}/" "${config_file}"
     sed -i "s/port: 80.*/port: ${SERVER_PORT}/" "${config_file}"
     sed -i "s/harbor_admin_password:.*/harbor_admin_password: ${ADMIN_PASS}/" "${config_file}"
-    sed -i "s|data_volume:.*|data_volume: ${INSTALL_PREFIX}/data|" "${config_file}"
+    sed -i "s|data_volume:.*|data_volume: ${INSTALL_PREFIX}/harbor/data|" "${config_file}"
     
     # 注释掉https配置中的特定行
     sed -i '/^ *https:/s/^/#/' "${config_file}"
