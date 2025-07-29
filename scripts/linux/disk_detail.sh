@@ -20,29 +20,9 @@ p_err() {
     echo -e "${RED}[错误]${NC} $1" >&2
 }
 
-# 打印成功信息（绿色）
-p_ok() {
-    echo -e "${GREEN}[成功]${NC} $1"
-}
-
-# 打印警告信息（黄色）
-p_warn() {
-    echo -e "${YELLOW}[警告]${NC} $1"
-}
-
 # 打印普通信息（蓝色）
 p_info() {
     echo -e "${BLUE}[信息]${NC} $1"
-}
-
-# 打印调试信息（紫色）
-p_debug() {
-    echo -e "${PURPLE}[调试]${NC} $1"
-}
-
-# 打印步骤信息（青色）
-p_step() {
-    echo -e "${CYAN}[信息]${NC} $1"
 }
 
 usage() {
@@ -54,7 +34,8 @@ usage() {
     echo "  -a, --all      显示所有物理磁盘的详细信息"
     p_info "依赖:"
     p_info "  1. smartctl"
-    p_info "  1. hdparm"
+    p_info "  2. hdparm"
+    p_info "  3. lshw"
     echo " "
     p_info "功能:"
     p_info "  1. 不带参数时统计系统磁盘数量"
@@ -128,12 +109,30 @@ disk_info() {
         [ "$rota" -eq 0 ] && disk_type="SSD"
     fi
     
-    # 获取接口类型
-    local interface="unknown"
-    if [[ $disk == sd* ]]; then
-        interface=$(udevadm info --query=property --name="$dev_path" | grep "ID_BUS=" | cut -d= -f2 | tr '[:lower:]' '[:upper:]')
-    elif [[ $disk == nvme* ]]; then
-        interface="NVMe"
+    # 使用lshw获取精确接口类型
+    local interface=""
+    if [ -x "$(command -v lshw)" ]; then
+        local bus_info=$(sudo lshw -class disk 2>/dev/null | grep -A10 "$dev_path" | grep "bus info:" | cut -d: -f2 | awk '{print $1}')
+        case "$bus_info" in
+            ata*) interface="SATA" ;;
+            scsi*) interface="SCSI" ;;
+            fc*) interface="光纤通道" ;;
+            ide*) interface="IDE" ;;
+            nvme*) 
+                if [[ $disk == nvme* ]]; then
+                    interface="M2-NVMe"
+                else
+                    interface="NVMe" 
+                fi
+                ;;
+            usb*) ;; # 忽略USB设备
+            *)
+                # 检查M.2 SATA
+                if [[ $disk == sd* ]] && grep -q "M.2" /sys/block/$disk/device/model 2>/dev/null; then
+                    interface="M2-SATA"
+                fi
+                ;;
+        esac
     fi
     
     # 获取序列号(需要root权限)
@@ -160,7 +159,7 @@ disk_info() {
     [ -n "$serial" ] && echo -e "  - 序列号: ${serial}"
     echo -e "  - 型号: ${model}"
     echo -e "  - 类型: ${disk_type}"
-    echo -e "  - 接口: ${interface}"
+    [ -n "$interface" ] && echo -e "  - 接口: ${interface} (尽可能手动二次确认)"
     echo -e "  - 容量: ${size}"
     [ -n "$cache" ] && echo -e "  - 缓存: ${cache}"
     
